@@ -41,8 +41,16 @@ const StopDetails: React.FC<StopDropdownProps> = () => {
   const filteredRoutes = selectedStopIndex !== null ? data.filter((route) => route.stops.some((stop) => stop.name === data[selectedStopIndex!].stops[selectedStopIndex!].name))
     : [];
 
+    // ToDo 
+    // es muss zunächst ein array mit allen stops generiert werden in dem diestops unique sind
+    // danach iterieren wir durch alle routes uns schauen ob der jeweilige stop da enthaltwen ist
+    // dann wird sich die route und die uhrzeit gemerkt
+    // es entsteht einobject mit den keys der namen der stops iund dem value als array aus strings die die uhrzeiten beinhalten
+    // ToDo End
+    
   return (
     <div>
+        
       <label htmlFor="stops">Choose a stop:</label>
       <select id="stops" onChange={handleStopChange} value={selectedStopIndex !== null ? selectedStopIndex : ''}>
         <option value="" disabled>Select a stop</option>
@@ -61,7 +69,7 @@ const StopDetails: React.FC<StopDropdownProps> = () => {
           <ul>
             {filteredRoutes.map((route, index) => (
               <li key={index}>
-                {route.route}
+                {route.route + ' ' + route.stops[0].name}
               </li>
             ))}
           </ul>
