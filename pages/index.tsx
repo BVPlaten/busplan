@@ -9,15 +9,16 @@ const Home: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Fahrplan</title>
+        <title>Busfahrplan</title>
       </Head>
-      <h1>
-        Lese <Link href="./Routes">diese Seite</Link>
-      </h1>
-      <div>
-        <h1>Daten aus der API</h1>
-        <DisplayData />
-      </div>
+      <h2>
+        <strong>Busfahrplan Coding Task</strong>
+      </h2>
+      <p>
+      Zielsetzung: Erstelle eine React-Anwendung, die einen Busfahrplan für ein öffentliches
+      Verkehrssystem anzeigt. Die Benutzer sollen den Fahrplan einsehen, ihn nach
+      verschiedenen Routen filtern und Details zu jeder Haltestelle sehen können.
+      </p>
     </>
 
   );
