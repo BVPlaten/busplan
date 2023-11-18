@@ -6,18 +6,12 @@ import DisplayDataNice from './DisplayDataNice';
 export interface IFirstPostProps {
 }
 
-export default function Schedule (props: IFirstPostProps) {
+export default function Schedule(props: IFirstPostProps) {
   return (
     <>
-
       <h1>Übersicht Bus-Linien</h1>
-      <h4>
-        <Link href="/">Back to home</Link>
-      </h4>
-
-      <br /><br />
+      <br />
       <DisplayDataNice />
     </>
   );
 }
-

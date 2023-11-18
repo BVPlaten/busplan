@@ -3,8 +3,6 @@ import Link from 'next/link';
 import Head from 'next/head';
 import DisplayData from './DisplayData';
 
-import Table from './table';
-
 const Home: React.FC = () => {
   return (
     <>
