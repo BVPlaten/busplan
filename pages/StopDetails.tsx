@@ -1,58 +1,90 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDataContext } from '../context/DataContext';
 
-interface Route {
-  route: string;
-  stops: { name: string; time: string }[];
-}
-
-interface StopDropdownProps {
-  routes: Route[];
-}
-
-const StopDetails: React.FC<StopDropdownProps> = () => {
-  const [selectedStopIndex, setSelectedStopIndex] = useState<number | null>(null);
+const StopDetail: React.FC = () => {
+  const [stopList, setStopList] = useState<Array<ArrivalsAtStop>>([]);
+  const [selectedStop, setSelectedStop] = useState<string | null>(null);
   const { data } = useDataContext();
-  
-  const handleStopChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const index = parseInt(event.target.value, 10);
-    setSelectedStopIndex(index);
-  };
+
+  useEffect(() => {
+    if (data) {
+      const newStopList: Array<ArrivalsAtStop> = [];
+
+      data.forEach((route, index) => {
+        if (route.stops.length > 0) {
+          for (let i = 0; i < route.stops.length; i++) {
+            const arrive: StopPlanData = {
+              name: route.stops[i].name,
+              route: route.route,
+              time: route.stops[i].time,
+            };
+
+            const existingStop = newStopList.find((stop) => stop.stop === arrive.name);
+
+            if (existingStop) {
+              existingStop.arrivals.push({ route: arrive.route, time: arrive.time });
+            } else {
+              const newStop: ArrivalsAtStop = {
+                stop: arrive.name,
+                arrivals: [{ route: arrive.route, time: arrive.time }],
+              };
+              newStopList.push(newStop);
+            }
+          }
+        }
+      });
+
+      setStopList(newStopList);
+    }
+  }, [data]);
 
   if (!data) {
     return <div><h1>Daten noch nicht geladen</h1></div>;
   }
-    
-  // Find routes that contain the selected stop
-  const filteredRoutes = selectedStopIndex !== null ? data.filter((route) => route.stops.some((stop) => stop.name === data[selectedStopIndex!].stops[selectedStopIndex!].name))
-    : [];
 
-    return (
-    <div className="dropdown">
-      <label className="form-label" htmlFor="stops">Auswahl einer Bushaltestelle :</label>
-      <select className="form-select" id="stops" onChange={handleStopChange} value={selectedStopIndex !== null ? selectedStopIndex : ''}>
-        <option value="" disabled>Haltestelle</option>
-        {data.map((route, index) => (
-          <option key={index} value={index}>
-            {route.stops[0] !== undefined ? route.stops[0].name : ''}
-          </option>
-        ))}
-      </select>
+  const handleStopChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStop(event.target.value);
+  };
+
+  const selectedStopData = selectedStop ? stopList.find((stop) => stop.stop === selectedStop) : null;
+
+  return (
+    <>
+      <div className="mb-3">
+        <label htmlFor="stops" className="form-label">Wähle eine Haltestelle:</label>
+        <select id="stops" className="form-select" onChange={handleStopChange} value={selectedStop || ''}>
+          <option value="" disabled>Haltestelle auswählen</option>
+          {stopList.map((stop, index) => (
+            <option key={index} value={stop.stop}>
+              {stop.stop}
+            </option>
+          ))}
+        </select>
+      </div>
   
-      {selectedStopIndex !== null && (
-        <div className="mt-3"> {/* Bootstrap margin top */}
-          <h2>Routenplan Haltestelle {data[selectedStopIndex].stops[selectedStopIndex].name}</h2>
-          <ul className="list-group">
-            {filteredRoutes.map((route, index) => (
-              <li key={index} className="list-group-item">
-                {route.stops[0].time + '  -  ' + route.route}
-              </li>
-            ))}
-          </ul>
+      {selectedStopData && (
+        <div>
+          <h2>Abfahrten an Haltestelle {selectedStopData.stop}</h2>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Route</th>
+                <th scope="col">Zeit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedStopData.arrivals.map((arrival, index) => (
+                <tr key={index}>
+                  <td>{arrival.route}</td>
+                  <td>{arrival.time}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
-export default StopDetails;
+export default StopDetail;

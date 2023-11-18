@@ -37,14 +37,23 @@ const DropdownComponent: React.FC<DropdownProps> = ({ routes }) => {
   
       {selectedIndex !== null && (
         <div className="mt-3"> {/* Bootstrap margin top */}
-          <h2>Stops for Route {data[selectedIndex].route}</h2>
-          <ul className="list-group">
-            {data[selectedIndex].stops.map((stop, index) => (
-              <li key={index} className="list-group-item">
-                {stop.name} - {stop.time}
-              </li>
-            ))}
-          </ul>
+          <h2>Stops für Linie {data[selectedIndex].route}</h2>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Haltestelle</th>
+                <th scope="col">Abfahrtszeit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data[selectedIndex].stops.map((stop, index) => (
+                <tr key={index}>
+                  <td>{stop.name}</td>
+                  <td>{stop.time}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

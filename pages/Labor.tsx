@@ -1,87 +1,79 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDataContext } from '../context/DataContext';
-import { it } from 'node:test';
 
 const Labor: React.FC = () => {
-  const [selectedStopIndex, setSelectedStopIndex] = useState<number | null>(null);
+  const [stopList, setStopList] = useState<Array<ArrivalsAtStop>>([]);
+  const [selectedStop, setSelectedStop] = useState<string | null>(null);
   const { data } = useDataContext();
-  let stopList: Array<ArrivalsAtStop> = new Array<ArrivalsAtStop>();
-  
+
+  useEffect(() => {
+    if (data) {
+      const newStopList: Array<ArrivalsAtStop> = [];
+
+      data.forEach((route, index) => {
+        if (route.stops.length > 0) {
+          for (let i = 0; i < route.stops.length; i++) {
+            const arrive: StopPlanData = {
+              name: route.stops[i].name,
+              route: route.route,
+              time: route.stops[i].time,
+            };
+
+            const existingStop = newStopList.find((stop) => stop.stop === arrive.name);
+
+            if (existingStop) {
+              existingStop.arrivals.push({ route: arrive.route, time: arrive.time });
+            } else {
+              const newStop: ArrivalsAtStop = {
+                stop: arrive.name,
+                arrivals: [{ route: arrive.route, time: arrive.time }],
+              };
+              newStopList.push(newStop);
+            }
+          }
+        }
+      });
+
+      setStopList(newStopList);
+    }
+  }, [data]);
+
   if (!data) {
     return <div><h1>Daten noch nicht geladen</h1></div>;
   }
 
   const handleStopChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const index = parseInt(event.target.value, 10);
-    setSelectedStopIndex(index);
+    setSelectedStop(event.target.value);
   };
 
-  function prepareData() : void {
-    const raw = expandData();
-  }
+  const selectedStopData = selectedStop ? stopList.find((stop) => stop.stop === selectedStop) : null;
 
-  function addBusArrival(stopName: string, arrival: BusArrivals): void {
-      const existingStop = stopList.find((stop) => stop.stop === stopName);
-
-      if (existingStop) {
-          // Falls der Stop bereits vorhanden ist, füge das BusArrival hinzu
-          existingStop.arrivals.push(arrival);
-      } else {
-          // Falls der Stop noch nicht existiert, erstelle ein neues ArrivalsAtStop
-          const newStop: ArrivalsAtStop = {
-              stop: stopName,
-              arrivals: [arrival],
-          };
-          stopList.push(newStop);
-      }
-  }
-
-  function expandData() : Array<StopPlanData> {
-    if(data) {
-      const arrivals = new Array<StopPlanData>();  // todo : kann weg
-      stopList = new Array<ArrivalsAtStop>();
-
-      data.forEach((route,index) => { 
-        if(route.stops.length > 0) {
-          for (let i = 0; i < route.stops.length; i++) {
-            let arrive: StopPlanData = {
-              name: route.stops[i].name,
-              route: route.route,
-              time: route.stops[i].time
-            };
-            //createStopList(arrive);
-            addBusArrival(arrive.name, {route: arrive.route, time: arrive.time});
-            arrivals.push(arrive);  // todo : kann weg
-          }
-        }
-      });
-      return arrivals;
-    }
-    return [];
-  }
-
-
-  prepareData();
-    
-  // Find routes that contain the selected stop
-  const filteredRoutes = selectedStopIndex !== null ? data.filter((route) => route.stops.some((stop) => stop.name === data[selectedStopIndex!].stops[selectedStopIndex!].name))
-    : [];
-
-    return (
+  return (
     <>
-    {/*}
-      <div>
-        {expandData().map((item, index) => (
-          <div key={index}>{`Index : ${index}  #  Name:${item.name}   Zeit: ${item.time}    Buslinie:${item.route} `}</div>
-        ))}
+      <div className="mb-3">
+        <label htmlFor="stops" className="form-label">Wähle eine Haltestelle:</label>
+        <select id="stops" className="form-select" onChange={handleStopChange} value={selectedStop || ''}>
+          <option value="" disabled>Haltestelle auswählen</option>
+          {stopList.map((stop, index) => (
+            <option key={index} value={stop.stop}>
+              {stop.stop}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      </div>
-      */}
-      <div>
-        {stopList.map((item,index) => (
-          <div key={index}>{`Index : ${index}  #  Haltestelle : ${item.stop}  # Abfahrten : ${item.arrivals.length}`}</div>
-        )) }
-      </div>
+      {selectedStopData && (
+        <div>
+          <h2>Abfahrten für Haltestelle {selectedStopData.stop}</h2>
+          <ul>
+            {selectedStopData.arrivals.map((arrival, index) => (
+              <li key={index}>
+                {`Route: ${arrival.route}, Zeit: ${arrival.time}`}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </>
   );
 };
