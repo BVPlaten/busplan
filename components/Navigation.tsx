@@ -42,11 +42,6 @@ export default function Navigation() {
               Haltestellenplan
             </Link>
           </li>
-          <li className="nav-item">
-            <Link href="/Labor" className="nav-link">
-              Experiment 4
-            </Link>
-          </li>
         </ul>
       </div>
     </nav>

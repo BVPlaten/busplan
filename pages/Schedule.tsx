@@ -16,15 +16,21 @@ const Schedule: React.FC = () => {
   };
 
   if (!data) {
-    return <div>Daten noch nicht geladen</div>;
-  }
+    return (
+    <div>
+      <hr/>
+      <h3><strong>loading...</strong></h3>
+      <img src="/HI9M.gif" alt="Loading" />
+      <hr/>
+    </div>    
+  )}
 
   return (
     <>
       <div className="container">
         <h2>Datenanzeige</h2>
-        {data.map((route) => (
-          <div key={route.route} className="card">
+        {data.map((route,index) => (
+          <div key={index} className="card">
             <div>
               <h3>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="24" height="24" style={{ marginRight: '5px' }}>
