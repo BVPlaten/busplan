@@ -36,7 +36,7 @@ const DropdownComponent: React.FC<DropdownProps> = ({ routes }) => {
       </select>
   
       {selectedIndex !== null && (
-        <div className="mt-3"> {/* Bootstrap margin top */}
+        <div className="mt-3"> 
           <h2>Stops für Linie {data[selectedIndex].route}</h2>
           <table className="table">
             <thead>

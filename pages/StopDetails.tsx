@@ -3,7 +3,7 @@ import { useDataContext } from '../context/DataContext';
 import getBackgroundColor from '../components/Colorizer';
 
 interface StopDetailsProps {
-  stopId: string; // ID als Prop übergeben
+  stopId: string;
 }
 
 const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
@@ -38,7 +38,6 @@ const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
           }
         }
       });
-
       setStopList(newStopList);
     }
   }, [data]);
@@ -52,7 +51,14 @@ const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
   const selectedStopData = selectedStop ? stopList.find((stop) => stop.stop === selectedStop) : null;
 
   if (!data) {
-    return <div><h1>Daten noch nicht geladen</h1></div>;
+    return (
+      <div>
+        <hr />
+        <h3><strong>loading...</strong></h3>
+        <img src="/HI9M.gif" alt="Loading" />
+        <hr />
+      </div>
+    );
   }
 
   return (
