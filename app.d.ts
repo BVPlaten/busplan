@@ -23,4 +23,3 @@ type StopPlanData = {
     route: string;
     time: string;
 };
-  

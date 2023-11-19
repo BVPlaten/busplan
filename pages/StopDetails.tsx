@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDataContext } from '../context/DataContext';
+import getBackgroundColor from '../components/Colorizer';
 
 interface StopDetailsProps {
   stopId: string; // ID als Prop übergeben
@@ -58,7 +59,6 @@ const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
     <>
       {selectedStopData && (
         <div>
-          <h2>Abfahrten an Haltestelle {selectedStopData.stop}</h2>
           <table className="table">
             <thead>
               <tr>
@@ -69,7 +69,7 @@ const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
             <tbody>
               {selectedStopData.arrivals.map((arrival, index) => (
                 <tr key={index}>
-                  <td>{arrival.route}</td>
+                  <td style={{ backgroundColor: getBackgroundColor(arrival.route) }}>{arrival.route}</td>
                   <td>{arrival.time}</td>
                 </tr>
               ))}

@@ -39,9 +39,16 @@ const StopDetailSelection: React.FC = () => {
   }, [data]);
 
   if (!data) {
-    return <div><h1>Daten noch nicht geladen</h1></div>;
+    return (
+      <div>
+        <hr />
+        <h3><strong>loading...</strong></h3>
+        <img src="/HI9M.gif" alt="Loading" />
+        <hr />
+      </div>
+    );
   }
-
+  
   const handleStopChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedStop(event.target.value);
   };
