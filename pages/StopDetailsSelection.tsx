@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDataContext } from '../context/DataContext';
 
-interface StopDetailsProps {
-  stopId: string; // ID als Prop übergeben
-}
-
-const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
+const StopDetailSelection: React.FC = () => {
   const [stopList, setStopList] = useState<Array<ArrivalsAtStop>>([]);
   const [selectedStop, setSelectedStop] = useState<string | null>(null);
   const { data } = useDataContext();
@@ -42,20 +38,30 @@ const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (stopId && Array.isArray(stopList) && stopList.length > 0) {
-      setSelectedStop(stopId);
-    }
-  }, [stopId, stopList]);
-
-  const selectedStopData = selectedStop ? stopList.find((stop) => stop.stop === selectedStop) : null;
-
   if (!data) {
     return <div><h1>Daten noch nicht geladen</h1></div>;
   }
 
+  const handleStopChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStop(event.target.value);
+  };
+
+  const selectedStopData = selectedStop ? stopList.find((stop) => stop.stop === selectedStop) : null;
+
   return (
     <>
+      <div className="mb-3">
+        <label htmlFor="stops" className="form-label">Wähle eine Haltestelle:</label>
+        <select id="stops" className="form-select" onChange={handleStopChange} value={selectedStop || ''}>
+          <option value="" disabled>Haltestelle auswählen</option>
+          {stopList.map((stop, index) => (
+            <option key={index} value={stop.stop}>
+              {stop.stop}
+            </option>
+          ))}
+        </select>
+      </div>
+  
       {selectedStopData && (
         <div>
           <h2>Abfahrten an Haltestelle {selectedStopData.stop}</h2>
@@ -81,4 +87,4 @@ const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
   );
 };
 
-export default StopDetails;
+export default StopDetailSelection;

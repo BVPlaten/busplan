@@ -38,7 +38,7 @@ export default function Navigation() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link href="/StopDetails" className="nav-link">
+            <Link href="/StopDetailsSelection" className="nav-link">
               Haltestellenplan
             </Link>
           </li>

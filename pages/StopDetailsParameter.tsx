@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDataContext } from '../context/DataContext';
+import { useRouter } from 'next/router';
 
-interface StopDetailsProps {
-  stopId: string; // ID als Prop übergeben
-}
-
-const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
+const StopDetails: React.FC = () => {
   const [stopList, setStopList] = useState<Array<ArrivalsAtStop>>([]);
   const [selectedStop, setSelectedStop] = useState<string | null>(null);
   const { data } = useDataContext();
+  const router = useRouter();
+  const { stopId } = router.query;   // http://localhost:3000/StopDetails?stopId=Stop%201
 
   useEffect(() => {
     if (data) {
@@ -44,15 +43,15 @@ const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
 
   useEffect(() => {
     if (stopId && Array.isArray(stopList) && stopList.length > 0) {
-      setSelectedStop(stopId);
+      setSelectedStop(stopId as string);
     }
   }, [stopId, stopList]);
-
-  const selectedStopData = selectedStop ? stopList.find((stop) => stop.stop === selectedStop) : null;
 
   if (!data) {
     return <div><h1>Daten noch nicht geladen</h1></div>;
   }
+
+  const selectedStopData = selectedStop ? stopList.find((stop) => stop.stop === selectedStop) : null;
 
   return (
     <>
