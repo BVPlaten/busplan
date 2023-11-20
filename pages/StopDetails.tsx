@@ -53,16 +53,15 @@ const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
   if (!data) {
     return (
       <div>
-        <hr />
-        <h3><strong>loading...</strong></h3>
-        <img src="/HI9M.gif" alt="Loading" />
-        <hr />
+        <h3><strong>loading...</strong></h3><img src="/HI9M.gif" alt="Loading" />
       </div>
     );
   }
 
   return (
-    <>
+    <div className="container">
+    <h2>An- und Abfahrten</h2>
+    <hr/>
       {selectedStopData && (
         <div>
           <table className="table">
@@ -83,7 +82,7 @@ const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
           </table>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -19,10 +19,7 @@ const Schedule: React.FC = () => {
   if (!data) {
     return (
       <div>
-        <hr />
-        <h3><strong>loading...</strong></h3>
-        <img src="/HI9M.gif" alt="Loading" />
-        <hr />
+        <h3><strong>loading...</strong></h3><img src="/HI9M.gif" alt="Loading" />
       </div>
     );
   }
@@ -30,7 +27,8 @@ const Schedule: React.FC = () => {
   return (
     <>
       <div className="container">
-        <h2>Datenanzeige</h2>
+        <h2>Fahrplan</h2>
+        <hr/>
         <div className="row">
           {data.map((route, index) => (
             <div key={index} className="col-md-4 mb-3">
@@ -66,7 +64,7 @@ const Schedule: React.FC = () => {
 
       <Modal show={selectedStop !== null} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>An- und Abfahrten {selectedStop}</Modal.Title>
+          <Modal.Title>Haltestelle {selectedStop}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <StopDetails stopId={selectedStop || ''} />

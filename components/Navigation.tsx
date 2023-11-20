@@ -37,11 +37,13 @@ export default function Navigation() {
               Linienplan
             </Link>
           </li>
+          {/*
           <li className="nav-item">
             <Link href="/StopDetailsSelection" className="nav-link">
               Haltestellenplan
             </Link>
           </li>
+          */}
         </ul>
       </div>
     </nav>

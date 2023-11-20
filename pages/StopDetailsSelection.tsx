@@ -48,7 +48,7 @@ const StopDetailSelection: React.FC = () => {
       </div>
     );
   }
-  
+
   const handleStopChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedStop(event.target.value);
   };
@@ -56,7 +56,10 @@ const StopDetailSelection: React.FC = () => {
   const selectedStopData = selectedStop ? stopList.find((stop) => stop.stop === selectedStop) : null;
 
   return (
-    <>
+    <div className="container">
+    <h2>Haltestellenplan</h2>
+    <hr/>
+
       <div className="mb-3">
         <label htmlFor="stops" className="form-label">Wähle eine Haltestelle:</label>
         <select id="stops" className="form-select" onChange={handleStopChange} value={selectedStop || ''}>
@@ -90,7 +93,7 @@ const StopDetailSelection: React.FC = () => {
           </table>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
