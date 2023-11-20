@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useDataContext } from '../context/DataContext';
-import getBackgroundColor from '../components/Colorizer';
+import React, { useState, useEffect } from "react";
+import { useDataContext } from "../context/DataContext";
+import getBackgroundColor from "../components/Colorizer";
 
 interface StopDetailsProps {
   stopId: string;
@@ -24,10 +24,15 @@ const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
               time: route.stops[i].time,
             };
 
-            const existingStop = newStopList.find((stop) => stop.stop === arrive.name);
+            const existingStop = newStopList.find(
+              (stop) => stop.stop === arrive.name
+            );
 
             if (existingStop) {
-              existingStop.arrivals.push({ route: arrive.route, time: arrive.time });
+              existingStop.arrivals.push({
+                route: arrive.route,
+                time: arrive.time,
+              });
             } else {
               const newStop: ArrivalsAtStop = {
                 stop: arrive.name,
@@ -48,20 +53,25 @@ const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
     }
   }, [stopId, stopList]);
 
-  const selectedStopData = selectedStop ? stopList.find((stop) => stop.stop === selectedStop) : null;
+  const selectedStopData = selectedStop
+    ? stopList.find((stop) => stop.stop === selectedStop)
+    : null;
 
   if (!data) {
     return (
       <div>
-        <h3><strong>loading...</strong></h3><img src="/HI9M.gif" alt="Loading" />
+        <h3>
+          <strong>loading...</strong>
+        </h3>
+        <img src="/HI9M.gif" alt="Loading" />
       </div>
     );
   }
 
   return (
     <div className="container">
-    <h2>An- und Abfahrten</h2>
-    <hr/>
+      <h2>An- und Abfahrten</h2>
+      <hr />
       {selectedStopData && (
         <div>
           <table className="table">
@@ -74,7 +84,13 @@ const StopDetails: React.FC<StopDetailsProps> = ({ stopId }) => {
             <tbody>
               {selectedStopData.arrivals.map((arrival, index) => (
                 <tr key={index}>
-                  <td style={{ backgroundColor: getBackgroundColor(arrival.route) }}>{arrival.route}</td>
+                  <td
+                    style={{
+                      backgroundColor: getBackgroundColor(arrival.route),
+                    }}
+                  >
+                    {arrival.route}
+                  </td>
                   <td>{arrival.time}</td>
                 </tr>
               ))}

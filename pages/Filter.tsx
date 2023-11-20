@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useDataContext } from '../context/DataContext';
-import getBackgroundColor from '../components/Colorizer';
+import { useState } from "react";
+import { useDataContext } from "../context/DataContext";
+import getBackgroundColor from "../components/Colorizer";
 
 interface Route {
   route: string;
@@ -23,30 +23,47 @@ const DropdownComponent: React.FC<DropdownProps> = ({ routes }) => {
   if (!data) {
     return (
       <div>
-        <h3><strong>loading...</strong></h3><img src="/HI9M.gif" alt="Loading" />
+        <h3>
+          <strong>loading...</strong>
+        </h3>
+        <img src="/HI9M.gif" alt="Loading" />
       </div>
     );
   }
 
-
   return (
     <div className="container">
-    <h2>Linienplan</h2>
-    <hr/>
+      <h2>Linienplan</h2>
+      <hr />
       <div>
-        <label className="form-label" htmlFor="routes">Buslinie auswählen:</label>
-        <select className="form-select" id="routes" onChange={handleRouteChange} value={selectedIndex !== null ? selectedIndex : ''}>
-          <option value="" disabled>Route</option>
+        <label className="form-label" htmlFor="routes">
+          Buslinie auswählen:
+        </label>
+        <select
+          className="form-select"
+          id="routes"
+          onChange={handleRouteChange}
+          value={selectedIndex !== null ? selectedIndex : ""}
+        >
+          <option value="" disabled>
+            Route
+          </option>
           {data.map((route, index) => (
             <option key={index} value={index}>
               {route.route}
             </option>
           ))}
         </select>
-    
+
         {selectedIndex !== null && (
-          <div className="mt-3"> 
-            <h2  style={{ backgroundColor: getBackgroundColor(data[selectedIndex].route) }}>Stops für Linie {data[selectedIndex].route}</h2>
+          <div className="mt-3">
+            <h2
+              style={{
+                backgroundColor: getBackgroundColor(data[selectedIndex].route),
+              }}
+            >
+              Stops für Linie {data[selectedIndex].route}
+            </h2>
             <table className="table">
               <thead>
                 <tr>
@@ -71,4 +88,3 @@ const DropdownComponent: React.FC<DropdownProps> = ({ routes }) => {
 };
 
 export default DropdownComponent;
-

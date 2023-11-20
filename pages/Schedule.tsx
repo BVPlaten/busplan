@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useDataContext } from '../context/DataContext';
-import { Button, Modal } from 'react-bootstrap';
-import StopDetails from './StopDetails';
-import getBackgroundColor from '../components/Colorizer';
+import React, { useState } from "react";
+import { useDataContext } from "../context/DataContext";
+import { Button, Modal } from "react-bootstrap";
+import StopDetails from "./StopDetails";
+import getBackgroundColor from "../components/Colorizer";
 
 const Schedule: React.FC = () => {
   const { data } = useDataContext();
@@ -19,7 +19,10 @@ const Schedule: React.FC = () => {
   if (!data) {
     return (
       <div>
-        <h3><strong>loading...</strong></h3><img src="/HI9M.gif" alt="Loading" />
+        <h3>
+          <strong>loading...</strong>
+        </h3>
+        <img src="/HI9M.gif" alt="Loading" />
       </div>
     );
   }
@@ -28,7 +31,7 @@ const Schedule: React.FC = () => {
     <>
       <div className="container">
         <h2>Fahrplan</h2>
-        <hr/>
+        <hr />
         <div className="row">
           {data.map((route, index) => (
             <div key={index} className="col-md-4 mb-3">
@@ -47,7 +50,10 @@ const Schedule: React.FC = () => {
                     {route.stops.map((stop, index) => (
                       <tr key={index}>
                         <td>
-                          <Button variant="link" onClick={() => handleStopClick(stop.name)}>
+                          <Button
+                            variant="link"
+                            onClick={() => handleStopClick(stop.name)}
+                          >
                             {stop.name}
                           </Button>
                         </td>
@@ -67,7 +73,7 @@ const Schedule: React.FC = () => {
           <Modal.Title>Haltestelle {selectedStop}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <StopDetails stopId={selectedStop || ''} />
+          <StopDetails stopId={selectedStop || ""} />
         </Modal.Body>
       </Modal>
 

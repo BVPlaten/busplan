@@ -1,16 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-
-/*
-type BusStop = {
-  name: string;
-  time: string;
-};
-
-type BusRoute = {
-  route: string;
-  stops: BusStop[];
-};
-*/
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface DataContextProps {
   children: React.ReactNode;
@@ -26,7 +14,7 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 export const useDataContext = () => {
   const context = useContext(DataContext);
   if (!context) {
-    throw new Error('useDataContext must be used within a DataProvider !');
+    throw new Error("useDataContext must be used within a DataProvider !");
   }
   return context;
 };
@@ -36,12 +24,12 @@ export const DataProvider: React.FC<DataContextProps> = ({ children }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('/api/schedule');
+      const response = await fetch("/api/schedule");
       const result = await response.json();
 
       setData(result);
     } catch (error) {
-      console.error('Error retrieving the data :', error);
+      console.error("Error retrieving the data :", error);
     }
   };
 
@@ -54,5 +42,7 @@ export const DataProvider: React.FC<DataContextProps> = ({ children }) => {
     fetchData,
   };
 
-  return <DataContext.Provider value={contextValue}>{children}</DataContext.Provider>;
+  return (
+    <DataContext.Provider value={contextValue}>{children}</DataContext.Provider>
+  );
 };

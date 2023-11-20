@@ -1,8 +1,8 @@
-import { AppProps } from 'next/app';
-import { DataProvider } from '../context/DataContext';
-import Layout from '../components/Layout';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import '../styles/Home.module.css'
+import { AppProps } from "next/app";
+import { DataProvider } from "../context/DataContext";
+import Layout from "../components/Layout";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/Home.module.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -15,4 +15,3 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
-

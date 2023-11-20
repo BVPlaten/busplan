@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDataContext } from '../context/DataContext';
+import React, { useState, useEffect } from "react";
+import { useDataContext } from "../context/DataContext";
 
 const StopDetailSelection: React.FC = () => {
   const [stopList, setStopList] = useState<Array<ArrivalsAtStop>>([]);
@@ -19,10 +19,15 @@ const StopDetailSelection: React.FC = () => {
               time: route.stops[i].time,
             };
 
-            const existingStop = newStopList.find((stop) => stop.stop === arrive.name);
+            const existingStop = newStopList.find(
+              (stop) => stop.stop === arrive.name
+            );
 
             if (existingStop) {
-              existingStop.arrivals.push({ route: arrive.route, time: arrive.time });
+              existingStop.arrivals.push({
+                route: arrive.route,
+                time: arrive.time,
+              });
             } else {
               const newStop: ArrivalsAtStop = {
                 stop: arrive.name,
@@ -42,7 +47,9 @@ const StopDetailSelection: React.FC = () => {
     return (
       <div>
         <hr />
-        <h3><strong>loading...</strong></h3>
+        <h3>
+          <strong>loading...</strong>
+        </h3>
         <img src="/HI9M.gif" alt="Loading" />
         <hr />
       </div>
@@ -53,17 +60,28 @@ const StopDetailSelection: React.FC = () => {
     setSelectedStop(event.target.value);
   };
 
-  const selectedStopData = selectedStop ? stopList.find((stop) => stop.stop === selectedStop) : null;
+  const selectedStopData = selectedStop
+    ? stopList.find((stop) => stop.stop === selectedStop)
+    : null;
 
   return (
     <div className="container">
-    <h2>Haltestellenplan</h2>
-    <hr/>
+      <h2>Haltestellenplan</h2>
+      <hr />
 
       <div className="mb-3">
-        <label htmlFor="stops" className="form-label">Wähle eine Haltestelle:</label>
-        <select id="stops" className="form-select" onChange={handleStopChange} value={selectedStop || ''}>
-          <option value="" disabled>Haltestelle auswählen</option>
+        <label htmlFor="stops" className="form-label">
+          Wähle eine Haltestelle:
+        </label>
+        <select
+          id="stops"
+          className="form-select"
+          onChange={handleStopChange}
+          value={selectedStop || ""}
+        >
+          <option value="" disabled>
+            Haltestelle auswählen
+          </option>
           {stopList.map((stop, index) => (
             <option key={index} value={stop.stop}>
               {stop.stop}
@@ -71,7 +89,7 @@ const StopDetailSelection: React.FC = () => {
           ))}
         </select>
       </div>
-  
+
       {selectedStopData && (
         <div>
           <h2>Abfahrten an Haltestelle {selectedStopData.stop}</h2>
